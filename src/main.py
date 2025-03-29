@@ -13,6 +13,8 @@ word_of_the_day = "horse"
 letter_reveal_order = random.shuffle(list(range(len(word_of_the_day))))
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+
 # Frontend routes
 @app.route("/")
 def welcome():
@@ -24,6 +26,8 @@ def welcome():
 @app.route("/api/guess", methods=["POST"])
 def guess():
     user_guess = request.form["guess"]
+    print(user_guess[:200])
+
     response = client.responses.create(
         model="gpt-4o-mini",
         input=[
@@ -37,13 +41,13 @@ def guess():
                     {
                         "type": "input_image",
                         "detail": "low",
-                        "image_url": f"data:image/jpeg;base64,{user_guess}",
+                        "image_url": f"{user_guess}",
                     },
                 ],
             }
         ],
     )
-    model_guess = response.output_text.trim().lower()
+    model_guess = response.output_text.strip().lower()
     params = {
         "guess": model_guess,
         "result": model_guess.lower() == word_of_the_day.lower(),
@@ -96,4 +100,3 @@ def winner():
 # TODO: `argparse` for `debug` flag`
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True, port=8080)
-

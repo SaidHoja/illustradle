@@ -11,8 +11,57 @@
 
 <ul id="previous_guesses"></ul>
 
-<form hx-post="/api/guess" hx-swap="beforebegin">
-    <input id="guess" name="guess" />
+<div id="drawpad" style="outline: 2px solid black; width: 512px; height: 512px;"></div>
+<script>
+    let stage = new Konva.Stage({
+        container: "drawpad",
+        width: 512,
+        height: 512,
+    });
+
+    let layer = new Konva.Layer();
+    stage.add(layer);
+
+    let painting = false;
+    let curline;
+
+    stage.on("mousedown touchstart", function (e) {
+        painting = true;
+        const pos = stage.getPointerPosition();
+        curline = new Konva.Line({
+            stroke: "#000",
+            strokeWidth: 5,
+            globalCompositeOperation: "source-over",
+            lineCap: "round",
+            lineJoin: "round",
+            points: [pos.x, pos.y, pos.x, pos.y],
+        });
+        layer.add(curline);
+    });
+
+    stage.on("mouseup touchend", function (e) {
+        painting = false;
+    });
+
+    stage.on("mousemove touchmove", function (e) {
+        if (!painting) return;
+
+        e.evt.preventDefault();
+
+        const pos = stage.getPointerPosition();
+        const newpoints = curline.points().concat([pos.x, pos.y]);
+        curline.points(newpoints);
+    });
+
+    layer.getCanvas()._canvas.id = "konva_canvas_grab_image"
+
+    function gen_image_content() {
+        return document.getElementById("konva_canvas_grab_image").toDataURL("image/png")
+    }
+</script>
+
+<form hx-post="/api/guess" hx-swap="beforebegin" hx-vals="js:{guess: gen_image_content()}">
+    <!-- <input id="guess" name="guess" /> -->
     <button type="submit">Submit</button>
 </form>
 
