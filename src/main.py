@@ -38,4 +38,4 @@ def hint():
 # Start with flask web app in debug mode
 # TODO: `argparse` for `debug` flag`
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", debug=True, port=8080)
