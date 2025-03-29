@@ -51,10 +51,7 @@ def welcome():
 @app.route("/api/guess", methods=["POST"])
 def guess():
     user_guess = request.form["guess"]
-
     similarity = test_word(request.form["guess"])
-
-    print(similarity)
 
     params = {
         "guess": request.form["guess"],
@@ -76,4 +73,4 @@ def hint():
 # Start with flask web app in debug mode
 # TODO: `argparse` for `debug` flag`
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=8000)
