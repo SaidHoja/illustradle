@@ -1,6 +1,7 @@
 backports.tarfile==1.2.0
 flask==3.1.0
 importlib-metadata==8.0.0
+inflect==7.3.1
 jaraco.collections==5.1.0
 platformdirs==4.2.2
 spacy==3.8.4
