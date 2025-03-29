@@ -1,9 +1,11 @@
+import random
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
 category_of_the_day = "animals"
 word_of_the_day = "horse"
+letter_reveal_order = random.shuffle(list(range(len(word_of_the_day))))
 
 
 # Frontend routes
@@ -36,4 +38,4 @@ def hint():
 # Start with flask web app in debug mode
 # TODO: `argparse` for `debug` flag`
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)

@@ -1,0 +1,9 @@
+[project]
+name = "illustradle"
+version = "0.1.0"
+description = "Hackathon project"
+readme = "README.md"
+requires-python = ">=3.12.9"
+dependencies = [
+    "flask==3.1.0",
+]
