@@ -1,12 +1,18 @@
-{% extends "base.html" %}
+{% extends "pages/base.html" %}
 {% block title %}Home{% endblock %}
 {% block body %}
 
-<p>Hello, world!</p>
+<p>Illustradle</p>
+
+{% include "components/known-letters.html" %}
+
+<ul id="previous_guesses"></ul>
 
 <form hx-post="/api/guess" hx-swap="beforebegin">
     <input id="guess" name="guess" />
     <button type="submit">Submit</button>
 </form>
+
+{% include "components/hint-button.html" %}
 
 {% endblock %}
