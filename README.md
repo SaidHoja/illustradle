@@ -9,7 +9,7 @@ Hackathon project for HooHacks 25
 1. Activate the virtual environment: `.venv\Scripts\activate` (Windows) or `source .venv/bin/activate` (macOS)
     - Some IDEs will do this for you
 1. Install project dependencies: `pip install -r requirements.txt`
-1. Download the large spaCy model: `python -m spacy download en_core_web_lg`
+1. Download the large spaCy model: `python -m spacy download en_core_web_md`
 
 ## Running
 

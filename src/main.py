@@ -1,4 +1,5 @@
 import spacy
+import numpy as np
 
 from flask import Flask, render_template, request
 
@@ -6,15 +7,37 @@ print("Initializing Flask...")
 app = Flask(__name__)
 
 print("Initializing spaCy...")
-nlp = spacy.load("en_core_web_lg")
+nlp_en = spacy.load("en_core_web_md")
 
 category_of_the_day = "animals"
 word_of_the_day = "horse"
-word_of_the_day_nlp = nlp(word_of_the_day)
+word_of_the_day_nlp = nlp_en(word_of_the_day)
+
+
+# https://medium.com/data-science/how-to-build-a-fast-most-similar-words-method-in-spacy-32ed104fe498
+def most_similar(word, topn=5):
+    word = nlp_en.vocab[str(word)]
+    queries = [
+        w
+        for w in word.vocab
+        if w.is_lower == word.is_lower and w.prob >= -15 and np.count_nonzero(w.vector)
+    ]
+
+    by_similarity = sorted(queries, key=lambda w: word.similarity(w), reverse=True)
+    return [
+        (w.lower_, w.similarity(word))
+        for w in by_similarity[: topn + 1]
+        if w.lower_ != word.lower_
+    ]
+
+
+print(f"Computing similar words to {word_of_the_day}...")
+most_similar_words = most_similar(word_of_the_day, topn=20)
+print(most_similar_words)
 
 
 def test_word(word: str) -> float:
-    return word_of_the_day_nlp.similarity(nlp(word))
+    return word_of_the_day_nlp.similarity(nlp_en(word))
 
 
 # Frontend routes

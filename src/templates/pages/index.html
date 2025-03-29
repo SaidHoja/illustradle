@@ -2,7 +2,10 @@
 {% block title %}Home{% endblock %}
 {% block body %}
 
-<p>Illustradle</p>
+<h1>Illustradle</h1>
+
+<p>Today's category is <strong><em>{{ category }}</em></strong>.</p>
+<p>Guess a word to see how similar it is to today's word.</p>
 
 {% include "components/known-letters.html" %}
 
