@@ -1,0 +1,7 @@
+backports.tarfile==1.2.0
+flask==3.1.0
+importlib-metadata==8.0.0
+jaraco.collections==5.1.0
+packaging==24.2
+platformdirs==4.2.2
+tomli==2.0.1
