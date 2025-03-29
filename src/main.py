@@ -11,8 +11,8 @@ app = Flask(__name__)
 category_of_the_day = "animals"
 word_of_the_day = "horse"
 letter_reveal_order = random.shuffle(list(range(len(word_of_the_day))))
-
-
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # Frontend routes
 @app.route("/")
 def welcome():
@@ -96,6 +96,4 @@ def winner():
 # TODO: `argparse` for `debug` flag`
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True, port=8080)
-    load_dotenv()
-    print(os.getenv("OPENAI_API_KEY"))
-    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
