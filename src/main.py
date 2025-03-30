@@ -26,6 +26,7 @@ def welcome():
 @app.route("/api/guess", methods=["POST"])
 def guess():
     user_guess = request.form["guess"]
+    user_guess_num = request.form["num_guess"]
     print(user_guess[:200])
 
     response = client.responses.create(
@@ -50,6 +51,7 @@ def guess():
     model_guess = response.output_text.strip().lower()
     params = {
         "guess": model_guess,
+        "num_guess": user_guess_num,
         "result": model_guess.lower() == word_of_the_day.lower(),
     }
 
@@ -58,8 +60,8 @@ def guess():
 
 @app.route("/api/hint", methods=["GET"])
 def hint():
-    letters = request.form[
-        "letters_revealed"
+    letters = request.args[
+        "best_guess"
     ]  # add front end validation for only 1 letter left.
     letters = letters.replace(" ", "")
     ar = []

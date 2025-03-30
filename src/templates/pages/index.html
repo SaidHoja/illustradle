@@ -19,8 +19,13 @@
         height: 512,
     });
 
-    let layer = new Konva.Layer();
-    stage.add(layer);
+    function clear_drawpad(stg) {
+        stg.destroyChildren();
+        let lyr = new Konva.Layer();
+        stg.add(lyr);
+        return lyr;
+    }
+    let layer = clear_drawpad(stage);
 
     let painting = false;
     let curline;
@@ -53,15 +58,37 @@
         curline.points(newpoints);
     });
 
-    layer.getCanvas()._canvas.id = "konva_canvas_grab_image"
+    num_guesses = 0;
 
-    function gen_image_content() {
-        return document.getElementById("konva_canvas_grab_image").toDataURL("image/png")
+    function append_content() {
+        content = stage.toDataURL({ pixelRatio: 0.5 });
+
+        previous_guesses = document.getElementById("previous_guesses");
+
+        num_guesses++;
+
+
+        const img = document.createElement("img");
+        img.src = content;
+        img.style = "outline: 2px solid black;"
+
+        const p = document.createElement("p");
+        p.id = `guess_${num_guesses}_text`
+
+        const li = document.createElement("li");
+        li.appendChild(img);
+        li.appendChild(p);
+
+        previous_guesses.appendChild(li);
+
+        return content;
     }
 </script>
 
-<form hx-post="/api/guess" hx-swap="beforebegin" hx-vals="js:{guess: gen_image_content()}">
-    <!-- <input id="guess" name="guess" /> -->
+<button onclick="layer = clear_drawpad(stage)">Clear</button>
+
+<form hx-post="/api/guess" hx-swap="beforeend" hx-target="#previous_guesses"
+    hx-vals="js:{guess: append_content(), num_guess: num_guesses}">
     <button type="submit">Submit</button>
 </form>
 
