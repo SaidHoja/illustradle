@@ -13,7 +13,7 @@
 
 <div id="drawpad" style="outline: 2px solid black; width: 512px; height: 512px;"></div>
 <script>
-    let stage = new Konva.Stage({
+    var stage = new Konva.Stage({
         container: "drawpad",
         width: 512,
         height: 512,
@@ -25,10 +25,10 @@
         stg.add(lyr);
         return lyr;
     }
-    let layer = clear_drawpad(stage);
+    var layer = clear_drawpad(stage);
 
-    let painting = false;
-    let curline;
+    var painting = false;
+    var curline;
 
     stage.on("mousedown touchstart", function (e) {
         painting = true;
@@ -58,7 +58,7 @@
         curline.points(newpoints);
     });
 
-    num_guesses = 0;
+    var num_guesses = 0;
 
     function append_content() {
         content = stage.toDataURL({ pixelRatio: 0.5 });

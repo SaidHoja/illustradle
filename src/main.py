@@ -64,14 +64,20 @@ def hint():
         "best_guess"
     ]  # add front end validation for only 1 letter left.
     letters = letters.replace(" ", "")
+    print(letters)
     ar = []
-    for char, i in enumerate(letters):
+    for i, char in enumerate(letters):
         if char == "_":
             ar.append(i)
-    reveal_index = len(random.randint(0, len(ar) - 1))
-    letters[reveal_index] = word_of_the_day[reveal_index]
-    params = {"category": category_of_the_day, "letters": " ".join(letters)}
-    return render_template("pages/index.html", **params)
+    reveal_index = random.randint(0, len(ar) - 1)
+    letters = (
+        letters[: ar[reveal_index]]
+        + word_of_the_day[ar[reveal_index]]
+        + letters[ar[reveal_index] + 1 :]
+    )
+    print(letters)
+    params = {"letters": " ".join(letters)}
+    return render_template("responses/hint.html", **params)
 
 
 @app.route("/api/giveup", methods=["GET"])
